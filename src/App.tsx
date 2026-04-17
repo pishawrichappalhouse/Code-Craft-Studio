@@ -217,25 +217,56 @@ export default function App() {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
 
-    // Adsterra Banner 160x300 Script Injection
-    try {
-      (window as any).atOptions = {
-        'key' : '49c8003a843ebd4050f438c5cce7dfac',
-        'format' : 'iframe',
-        'height' : 300,
-        'width' : 160,
-        'params' : {}
-      };
-      
-      const script = document.createElement("script");
-      script.src = "https://valuationappeared.com/49c8003a843ebd4050f438c5cce7dfac/invoke.js";
-      script.async = true;
-      document.getElementById("ad-banner-160x300")?.appendChild(script);
-    } catch (e) {
-      console.error("Adsterra Script Error:", e);
-    }
+    // Adsterra Ad Injections
+    const injectAds = () => {
+      try {
+        // Banner 160x300
+        const bannerContainer = document.getElementById("ad-banner-160x300");
+        if (bannerContainer && !bannerContainer.querySelector('script')) {
+          (window as any).atOptions = {
+            'key' : '49c8003a843ebd4050f438c5cce7dfac',
+            'format' : 'iframe',
+            'height' : 300,
+            'width' : 160,
+            'params' : {}
+          };
+          const script = document.createElement("script");
+          script.src = "https://valuationappeared.com/49c8003a843ebd4050f438c5cce7dfac/invoke.js";
+          script.async = true;
+          bannerContainer.appendChild(script);
+        }
 
-    return () => window.removeEventListener("scroll", handleScroll);
+        // Native Banner
+        const nativeContainer = document.getElementById("container-fae1bd2fb67d00cb1294eedde47642be");
+        if (nativeContainer && !nativeContainer.querySelector('script')) {
+          const script = document.createElement("script");
+          script.src = "https://valuationappeared.com/fae1bd2fb67d00cb1294eedde47642be/invoke.js";
+          script.async = true;
+          script.setAttribute("data-cfasync", "false");
+          nativeContainer.appendChild(script);
+        }
+
+        // Native Banner (Top slot if any)
+        const nativeTop = document.getElementById("container-fae1bd2fb67d00cb1294eedde47642be-top");
+        if (nativeTop && !nativeTop.querySelector('script')) {
+           const script = document.createElement("script");
+           script.src = "https://valuationappeared.com/fae1bd2fb67d00cb1294eedde47642be/invoke.js";
+           script.async = true;
+           script.setAttribute("data-cfasync", "false");
+           nativeTop.appendChild(script);
+        }
+      } catch (e) {
+        console.error("Adsterra Injection Error:", e);
+      }
+    };
+
+    // Run injection with a small delay to ensure React has rendered the DOM
+    const timer = setTimeout(injectAds, 500);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
