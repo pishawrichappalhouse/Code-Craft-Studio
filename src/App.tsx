@@ -216,6 +216,25 @@ export default function App() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
+
+    // Adsterra Banner 160x300 Script Injection
+    try {
+      (window as any).atOptions = {
+        'key' : '49c8003a843ebd4050f438c5cce7dfac',
+        'format' : 'iframe',
+        'height' : 300,
+        'width' : 160,
+        'params' : {}
+      };
+      
+      const script = document.createElement("script");
+      script.src = "https://valuationappeared.com/49c8003a843ebd4050f438c5cce7dfac/invoke.js";
+      script.async = true;
+      document.getElementById("ad-banner-160x300")?.appendChild(script);
+    } catch (e) {
+      console.error("Adsterra Script Error:", e);
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -311,22 +330,27 @@ export default function App() {
             <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
               Affordable, modern, and high-converting websites designed to turn visitors into loyal customers. Let's craft your digital success story.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a 
                 href={getWhatsAppLink("I want to discuss a project with Code Craft Studio")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-10 py-4 bg-neon-blue text-black font-bold rounded-full text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all flex items-center justify-center gap-2 group"
+                className="w-full sm:w-auto px-10 py-5 bg-neon-blue text-black font-bold rounded-full text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all flex items-center justify-center gap-2 group"
               >
                 Order Now on WhatsApp
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
-              <a 
-                href="#portfolio"
-                className="w-full sm:w-auto px-10 py-4 bg-white/5 text-white font-bold rounded-full text-lg hover:bg-white/10 transition-all border border-white/10"
-              >
-                View Portfolio
-              </a>
+              <div className="flex flex-col gap-2 w-full sm:w-auto">
+                <a 
+                  href="https://valuationappeared.com/rcur994uzw?key=8e15e0d336bcc3ecbb4da53b80e7fab4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full px-10 py-5 bg-white/5 text-neon-blue font-bold rounded-full text-lg hover:bg-white/10 transition-all border border-neon-blue/30 flex items-center justify-center gap-2 group animate-pulse"
+                >
+                  Claim Special Bonus 🎁
+                </a>
+                <span className="text-[10px] text-gray-600 uppercase tracking-widest text-center">Sponsored Offer</span>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -425,11 +449,18 @@ export default function App() {
               image="https://picsum.photos/seed/creative/800/600"
             />
           </motion.div>
+          {/* Native Banner Ad Container */}
+          <div className="mt-20 flex justify-center">
+            <div id="container-fae1bd2fb67d00cb1294eedde47642be" className="w-full max-w-4xl min-h-[100px] border border-white/5 rounded-xl overflow-hidden bg-white/5 p-4 text-center text-xs text-gray-500">
+              <span className="mb-2 block uppercase tracking-widest font-bold text-gray-700">Recommended for you</span>
+              {/* Adsterra script will inject here */}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section ref={whyChooseUsRef} className="py-24 px-6 overflow-hidden">
+      <section ref={whyChooseUsRef} className="py-24 px-6 overflow-hidden relative">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
             <SectionHeading 
@@ -437,34 +468,44 @@ export default function App() {
               subtitle="We don't just build websites; we build growth engines for your business."
               centered={false}
             />
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              {[
-                { title: "High-Quality Design", desc: "Pixel-perfect aesthetics that wow your visitors." },
-                { title: "Fast Delivery", desc: "We respect your time and deliver projects on schedule." },
-                { title: "Affordable Pricing", desc: "Premium quality that doesn't break the bank." },
-                { title: "Client Satisfaction Guarantee", desc: "We work until you are 100% happy with the result." }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  variants={itemVariants}
-                  className="flex gap-4"
-                >
-                  <div className="mt-1">
-                    <CheckCircle2 className="w-6 h-6 text-neon-blue" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-1">{item.title}</h4>
-                    <p className="text-gray-400">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+            <div className="flex gap-8 items-start">
+              <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="space-y-6 flex-grow"
+              >
+                {[
+                  { title: "High-Quality Design", desc: "Pixel-perfect aesthetics that wow your visitors." },
+                  { title: "Fast Delivery", desc: "We respect your time and deliver projects on schedule." },
+                  { title: "Affordable Pricing", desc: "Premium quality that doesn't break the bank." },
+                  { title: "Client Satisfaction Guarantee", desc: "We work until you are 100% happy with the result." }
+                ].map((item, i) => (
+                  <motion.div 
+                    key={i}
+                    variants={itemVariants}
+                    className="flex gap-4"
+                  >
+                    <div className="mt-1">
+                      <CheckCircle2 className="w-6 h-6 text-neon-blue" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold mb-1">{item.title}</h4>
+                      <p className="text-gray-400">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Sidebar Ad Banner */}
+              <div className="hidden xl:block w-[160px] flex-shrink-0">
+                <div className="sticky top-24 border border-white/10 rounded-xl overflow-hidden bg-white/5 min-h-[300px]" id="ad-banner-160x300">
+                  <div className="text-[10px] text-gray-600 text-center py-1 bg-white/5 uppercase font-bold tracking-widest">Sponsored</div>
+                  {/* Adsterra script will inject here */}
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex-1 relative">
             <motion.div 
@@ -598,6 +639,18 @@ export default function App() {
               Order Now on WhatsApp
               <ArrowRight className="w-6 h-6" />
             </a>
+            
+            {/* Revenue Boost: Extra Smartlink below major button */}
+            <div className="mt-12 group">
+              <a 
+                href="https://valuationappeared.com/rcur994uzw?key=8e15e0d336bcc3ecbb4da53b80e7fab4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 text-sm hover:text-neon-blue transition-colors underline decoration-dotted"
+              >
+                Check out exclusive web templates from our partners
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
